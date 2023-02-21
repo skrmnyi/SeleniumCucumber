@@ -1,16 +1,23 @@
-package pageObjects;
+package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
 
 public class HomePage extends ConfigPage {
 
     public HomePage(WebDriver driver) {
         super(driver);
     }
-    private WebElement searchInput = driver.findElement(By.xpath("//input[@name=\"searchTerm\"]"));
-    private WebElement searchButton = driver.findElement(By.xpath("//button[@aria-label=\"Search\"]"));
+    @FindBy(how= How.ID, using="book-search-form")
+    private WebElement searchInput;
+
+    @FindBy(how=How.ID, using="inline-search-submit")
+    WebElement logUser;
+
+    @FindBy(xpath = "//button[@aria-label=\"Search\"]")
+    private WebElement searchButton;
 
     public void fillSearchItemUput(String productName) {
         searchInput.sendKeys(productName);

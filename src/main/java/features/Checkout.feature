@@ -9,6 +9,6 @@ Feature: Desktop Checkout for Guest User
     And I search for “Thinking in Java”
     And I am redirected to a “Search Page”
     And Search results contain the following products
-      | Thinking in Java.         |
-      | Thinking Java Part 1      |
+      | Thinking in Java         |
+      | Thinking Java Part I      |
       | Core Java Professional    |

@@ -2,11 +2,23 @@ package stepDefinitions;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import org.hamcrest.MatcherAssert;
+import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import pageObjects.HomePage;
+import pages.HomePage;
+import pages.SearchPage;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsCollectionContaining.hasItem;
+import static org.hamcrest.core.IsCollectionContaining.hasItems;
+
 
 public class CheckoutSteps {
     WebDriver driver;
@@ -25,7 +37,7 @@ public class CheckoutSteps {
         driver.get("https://www.bookdepository.com");
     }
 
-    @And("I search for an item with name {productName}")
+    @And("I search for “Thinking in Java”")
     public void searchBook() {
         homePage.fillSearchItemUput("Thinking in Java”");
     }
@@ -35,17 +47,14 @@ public class CheckoutSteps {
         homePage.clickOnSearchButton();
     }
 
-    @Given("Search results contain the following products")
-    public void search_results_contain_the_following_products(io.cucumber.datatable.DataTable dataTable) {
-        // Write code here that turns the phrase above into concrete actions
-        // For automatic transformation, change DataTable to one of
-        // E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
-        // Map<K, List<V>>. E,K,V must be a String, Integer, Float,
-        // Double, Byte, Short, Long, BigInteger or BigDecimal.
-        //
-        // For other transformations you can register a DataTableType.
-        throw new io.cucumber.java.PendingException();
+    @And("Search results contain the following products")
+    public void checkSearchResults() {
+        List<String> expectedItemsResult = new ArrayList<>();
+        SearchPage searchPage = new SearchPage(driver);
+        List<String> expectedBooks = new ArrayList<>();
+        expectedBooks.addAll(Arrays.asList("Thinking Java", "Thinking Java Part I", "Core Java Professional"));
+        Assertions.assertEquals(expectedBooks, searchPage.getSearchResultItems());
+
     }
-
-
 }
+
