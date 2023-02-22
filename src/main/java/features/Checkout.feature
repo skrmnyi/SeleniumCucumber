@@ -12,3 +12,8 @@ Feature: Desktop Checkout for Guest User
       | Thinking in Java          |
       | Thinking Java Part I      |
       | Core Java Professional    |
+    And I apply the following search filters
+      | Price range |  30 € + |
+      | Availability | In stock (5) |
+      |  Language |  English (17) |
+      | Format |  Paperback (22) |

@@ -8,6 +8,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import pages.HomePage;
 import pages.SearchPage;
 
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -50,6 +52,16 @@ public class CheckoutSteps {
     public void searchResultsContainTheFollowingProducts(DataTable expectedBooks) {
         SearchPage searchPage = new SearchPage(driver);
         searchPage.foundedBooksOnTheSearchPage().contains(expectedBooks.asList());
+    }
+
+    @And("I apply the following search filters")
+    public void iApplyTheFollowingSearchFilters(DataTable filterValues) {
+        List<Map<String, String>> filterParams = filterValues.asMaps(String.class, String.class);
+        SearchPage searchPage = new SearchPage(driver);
+        searchPage.filterSearhResultsByParameters(filterParams.get(0).toString(), filterParams.get(1).toString());
+        searchPage.filterSearhResultsByParameters(filterParams.get(2).toString(), filterParams.get(3).toString());
+        searchPage.filterSearhResultsByParameters(filterParams.get(4).toString(), filterParams.get(5).toString());
+        searchPage.filterSearhResultsByParameters(filterParams.get(6).toString(), filterParams.get(7).toString());
     }
 }
 
