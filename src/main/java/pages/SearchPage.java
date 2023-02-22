@@ -29,26 +29,21 @@ public class SearchPage extends ConfigPage {
         return bookElements;
     }
 
-    @FindBy(xpath = "//select[@id=\"filterPrice\"]")
-    private WebElement filterPriceRangeDropDown;
 
-    @FindBy(xpath = "//select[@id=\"filterPrice\"]/option[contains(text(),'30 € +')]")
-    private WebElement filterPriceRangeDropDownValue;
-
-    @FindBy(xpath = "//select[@id=\"filterAvailability\"]")
-    private WebElement filterAvailabilityDropDown;
-
-    @FindBy(xpath = "//select[@id=\"filterLang\"]")
-    private WebElement filterLanguageDropDown;
-
-    @FindBy(xpath = "//button[@class=\"btn btn-primary\"][contains(text(),'Refine results')]")
-    private WebElement refineResultsButton;
-
-    public void filterSearhResultsByParameters(String filterDropDown, String filterDropDownValue) {
-        driver.findElement(By.xpath("//label[text()='" + filterDropDown + "']/parent::div/select")).click();
-        driver.findElement(By.xpath("//label[text()='" + filterDropDown + "']/" +
-                "parent::div/select/option[contains(text(),'"+filterDropDownValue+"')]")).click();
-
-
+    public void filterSearhResultsUsingAllFilters(String filterName1, String filterValue1, String filterName2, String filterValue2,
+                                                  String filterName3, String filterValue3, String filterName4, String filterValue4) {
+        driver.findElement(By.xpath("//label[text()='" + filterName1 + "']/parent::div/select")).click();
+        driver.findElement(By.xpath("//label[text()='" + filterName1 + "']/" +
+                "parent::div/select/option[contains(text(),'" + filterValue1 + "')]")).click();
+        driver.findElement(By.xpath("//label[text()='" + filterName2 + "']/parent::div/select")).click();
+        driver.findElement(By.xpath("//label[text()='" + filterName2 + "']/" +
+                "parent::div/select/option[contains(text(),'" + filterValue2 + "')]")).click();
+        driver.findElement(By.xpath("//label[text()='" + filterName3 + "']/parent::div/select")).click();
+        driver.findElement(By.xpath("//label[text()='" + filterName3 + "']/" +
+                "parent::div/select/option[contains(text(),'" + filterValue3 + "')]")).click();
+        driver.findElement(By.xpath("//label[text()='" + filterName4 + "']/parent::div/select")).click();
+        driver.findElement(By.xpath("//label[text()='" + filterName4 + "']/" +
+                "parent::div/select/option[contains(text(),'" + filterValue4 + "')]")).click();
+        driver.findElement(By.xpath("//div[@class=\"form-group padded-btn-wrap\"]/button")).click();
     }
 }

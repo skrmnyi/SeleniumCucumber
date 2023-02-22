@@ -55,15 +55,27 @@ public class CheckoutSteps {
     }
 
     @And("I apply the following search filters")
-    public void iApplyTheFollowingSearchFilters(DataTable filterValues) {
-        List<Map<String, String>> filterParams = filterValues.asMaps(String.class, String.class);
+    public void iApplyTheFollowingSearchFilters(DataTable filterParams) {
         SearchPage searchPage = new SearchPage(driver);
-        searchPage.filterSearhResultsByParameters(filterParams.get(0).toString(), filterParams.get(1).toString());
-        searchPage.filterSearhResultsByParameters(filterParams.get(2).toString(), filterParams.get(3).toString());
-        searchPage.filterSearhResultsByParameters(filterParams.get(4).toString(), filterParams.get(5).toString());
-        searchPage.filterSearhResultsByParameters(filterParams.get(6).toString(), filterParams.get(7).toString());
+//        searchPage.filterSearhResultsByParameters(filterParams.cell(0, 0).toString(),
+//                filterParams.cell(0, 1).toString());
+//        searchPage.filterSearhResultsByParameters(filterParams.cell(1, 0).toString(),
+//                filterParams.cell(1, 1).toString());
+//        searchPage.filterSearhResultsByParameters(filterParams.cell(2, 0).toString(),
+//                filterParams.cell(2, 1).toString());
+//        searchPage.filterSearhResultsByParameters(filterParams.cell(3, 0).toString(),
+//                filterParams.cell(3, 1).toString());
+
+        searchPage.filterSearhResultsUsingAllFilters(filterParams.cell(0, 0).toString(),
+                filterParams.cell(0, 1).toString(), filterParams.cell(1, 0).toString(),
+                filterParams.cell(1, 1).toString(), filterParams.cell(2, 0).toString(),
+                filterParams.cell(2, 1).toString(), filterParams.cell(3, 0).toString(),
+                filterParams.cell(3, 1).toString());
     }
+
+
 }
+
 
 
 
