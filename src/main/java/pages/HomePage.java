@@ -12,16 +12,14 @@ public class HomePage extends ConfigPage {
         super(driver);
         PageFactory.initElements(driver, this);
     }
-    @FindBy(how= How.ID, using="book-search-form")
-    private WebElement searchInput;
 
-    @FindBy(how=How.ID, using="inline-search-submit")
-    WebElement logUser;
+    @FindBy(xpath = "//input[@name=\"searchTerm\"]")
+    private WebElement searchInput;
 
     @FindBy(xpath = "//button[@aria-label=\"Search\"]")
     private WebElement searchButton;
 
-    public void fillSearchItemUput(String productName) {
+    public void fillSearchItemInput(String productName) {
         searchInput.sendKeys(productName);
 
     }
