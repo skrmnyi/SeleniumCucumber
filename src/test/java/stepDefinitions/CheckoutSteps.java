@@ -22,7 +22,7 @@ import static org.hamcrest.core.IsCollectionContaining.hasItems;
 
 public class CheckoutSteps {
     WebDriver driver;
-    HomePage homePage = new HomePage(driver);
+
 
     @Given("I am an anonymous customer with clear cookies")
     public void launchBrowser() {
@@ -39,11 +39,13 @@ public class CheckoutSteps {
 
     @And("I search for “Thinking in Java”")
     public void searchBook() {
+        HomePage homePage = new HomePage(driver);
         homePage.fillSearchItemUput("Thinking in Java”");
     }
 
     @And("I am redirected to a “Search Page”")
     public void redirectToSearchPage() {
+        HomePage homePage = new HomePage(driver);
         homePage.clickOnSearchButton();
     }
 
