@@ -74,6 +74,9 @@ public class CheckoutSteps {
     }
 
 
+    @And("I click ‘Add to basket’ button for a product with the name “Thinking in Java”")
+    public void iClickAddToBasketButtonForAProductWithTheNameThinkingInJava() {
+    }
 }
 
 
