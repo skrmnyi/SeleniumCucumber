@@ -3,10 +3,14 @@ package stepDefinitions;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pages.BasketModalWindow;
+import pages.BasketPage;
 import pages.HomePage;
 import pages.SearchPage;
 
@@ -51,7 +55,6 @@ public class CheckoutSteps {
         }
     }
 
-
     @And("Search results contain the following products")
     public void searchResultsContainTheFollowingProducts(DataTable expectedBooks) {
         SearchPage searchPage = new SearchPage(driver);
@@ -61,7 +64,11 @@ public class CheckoutSteps {
     @And("I apply the following search filters")
     public void iApplyTheFollowingSearchFilters(DataTable filterParams) {
         SearchPage searchPage = new SearchPage(driver);
-        searchPage.filterSearhResultsUsingAllFilters(filterParams.cell(0, 0).toString(), filterParams.cell(0, 1).toString(), filterParams.cell(1, 0).toString(), filterParams.cell(1, 1).toString(), filterParams.cell(2, 0).toString(), filterParams.cell(2, 1).toString(), filterParams.cell(3, 0).toString(), filterParams.cell(3, 1).toString());
+        searchPage.filterSearhResultsUsingAllFilters(filterParams.cell(0, 0).toString(),
+                filterParams.cell(0, 1).toString(), filterParams.cell(1, 0).toString(),
+                filterParams.cell(1, 1).toString(), filterParams.cell(2, 0).toString(),
+                filterParams.cell(2, 1).toString(), filterParams.cell(3, 0).toString(),
+                filterParams.cell(3, 1).toString());
     }
 
     @And("I click {string} button for a product with the name {string}")
@@ -86,5 +93,11 @@ public class CheckoutSteps {
 
     @And("Basket order summary is as following:")
     public void basketOrderSummaryIsAsFollowing(DataTable orderCostData) {
+        List<Map<String, String>> orderSummary = orderCostData.asMaps();
+        BasketPage basketPage = new BasketPage(driver);
+        Assertions.assertEquals(basketPage.deliveryValue, orderSummary.get(0).get("Delivery cost"));
+        Assertions.assertEquals(basketPage.totalValue, orderSummary.get(0).get("Total"));
+
+
     }
 }
