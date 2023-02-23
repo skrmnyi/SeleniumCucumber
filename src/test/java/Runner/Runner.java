@@ -9,3 +9,4 @@ import org.junit.runner.RunWith;
 @CucumberOptions(features = "src/main/java/features", glue = {"stepDefinitions"}, monochrome = true)
 public class Runner {
 }
+

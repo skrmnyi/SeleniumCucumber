@@ -3,8 +3,10 @@ package stepDefinitions;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import pages.BasketModalWindow;
 import pages.HomePage;
 import pages.SearchPage;
 
@@ -16,9 +18,8 @@ import java.util.concurrent.TimeUnit;
 public class CheckoutSteps {
 
     public WebDriver driver;
+    private final String baseUrl = "https://www.bookdepository.com/";
 
-    final String baseUrl = "https://www.bookdepository.com/";
-    final String searchUrl = "https://www.bookdepository.com/search?searchTerm=";
 
     @Given("I am an anonymous customer with clear cookies")
     public void launchBrowser() {
@@ -41,10 +42,13 @@ public class CheckoutSteps {
     }
 
     @And("I am redirected to a {string}")
-    public void iAmRedirectedToASearchPage(String searchUrl) {
+    public void iAmRedirectedToASearchPage(String pageValue) {
         HomePage homePage = new HomePage(driver);
         homePage.clickOnSearchButton();
-        driver.getPageSource().contains(searchUrl);
+        if (pageValue.contains("Search Page")) {
+            String expectedSearchUrl = "https://www.bookdepository.com/search?searchTerm=";
+            Assertions.assertTrue(driver.getCurrentUrl().contains(expectedSearchUrl));
+        }
     }
 
 
@@ -57,28 +61,26 @@ public class CheckoutSteps {
     @And("I apply the following search filters")
     public void iApplyTheFollowingSearchFilters(DataTable filterParams) {
         SearchPage searchPage = new SearchPage(driver);
-//        searchPage.filterSearhResultsByParameters(filterParams.cell(0, 0).toString(),
-//                filterParams.cell(0, 1).toString());
-//        searchPage.filterSearhResultsByParameters(filterParams.cell(1, 0).toString(),
-//                filterParams.cell(1, 1).toString());
-//        searchPage.filterSearhResultsByParameters(filterParams.cell(2, 0).toString(),
-//                filterParams.cell(2, 1).toString());
-//        searchPage.filterSearhResultsByParameters(filterParams.cell(3, 0).toString(),
-//                filterParams.cell(3, 1).toString());
-
-        searchPage.filterSearhResultsUsingAllFilters(filterParams.cell(0, 0).toString(),
-                filterParams.cell(0, 1).toString(), filterParams.cell(1, 0).toString(),
-                filterParams.cell(1, 1).toString(), filterParams.cell(2, 0).toString(),
-                filterParams.cell(2, 1).toString(), filterParams.cell(3, 0).toString(),
-                filterParams.cell(3, 1).toString());
+        searchPage.filterSearhResultsUsingAllFilters(filterParams.cell(0, 0).toString(), filterParams.cell(0, 1).toString(), filterParams.cell(1, 0).toString(), filterParams.cell(1, 1).toString(), filterParams.cell(2, 0).toString(), filterParams.cell(2, 1).toString(), filterParams.cell(3, 0).toString(), filterParams.cell(3, 1).toString());
     }
 
+    @And("I click {string} button for a product with the name {string}")
+    public void iClickButtonForAProductWithTheName(String buttonName, String bookName) {
+        SearchPage searchPage = new SearchPage(driver);
+        searchPage.addToBusketSpecificBok(bookName, buttonName).click();
+    }
 
-    @And("I click ‘Add to basket’ button for a product with the name “Thinking in Java”")
-    public void iClickAddToBasketButtonForAProductWithTheNameThinkingInJava() {
+    @And("I select {string} in the basket pop-up")
+    public void iSelectInTheBasketPopUp(String buttonName) {
+        BasketModalWindow basketModalWindow = new BasketModalWindow(driver);
+        basketModalWindow.selectButtonOnBasketModal(buttonName);
+    }
+
+    @And("I am redirected to the {string}")
+    public void iAmRedirectedToThe(String pageValue) {
+        if (pageValue.contains("Basket Page")) {
+            String expecteBaskethUrl = "https://www.bookdepository.com/basket";
+            Assertions.assertEquals(driver.getCurrentUrl(), expecteBaskethUrl);
+        }
     }
 }
-
-
-
-

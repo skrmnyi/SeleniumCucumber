@@ -46,4 +46,10 @@ public class SearchPage extends ConfigPage {
                 "parent::div/select/option[contains(text(),'" + filterValue4 + "')]")).click();
         driver.findElement(By.xpath("//div[@class=\"form-group padded-btn-wrap\"]/button")).click();
     }
+
+    public WebElement addToBusketSpecificBok(String book, String buttonName) {
+        return driver.findElement(By.xpath("//meta[@content='" + book + "']/following-sibling::div/div" +
+                "/a[contains(text(),'" + buttonName + "')]"));
+    }
 }
+
