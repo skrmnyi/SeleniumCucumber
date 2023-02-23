@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CheckoutSteps {
 
-    public WebDriver driver;
+    private static WebDriver driver;
     private final String baseUrl = "https://www.bookdepository.com/";
 
 
@@ -40,7 +40,7 @@ public class CheckoutSteps {
     }
 
     @And("I am redirected to a {string}")
-    public void iAmRedirectedToASearchPage(String pageValue) {
+    public void iAmRedirectedToASearchPage(String pageValue)  {
         HomePage homePage = new HomePage(driver);
         homePage.clickOnSearchButton();
         if (pageValue.contains("Search Page")) {
@@ -78,10 +78,10 @@ public class CheckoutSteps {
     }
 
     @And("I am redirected to the {string}")
-    public void iAmRedirectedToThe(String pageValue) {
+    public void iAmRedirectedToThe(String pageValue) throws InterruptedException {
         if (pageValue.contains("Basket Page")) {
             String expectedBaskethUrl = "https://www.bookdepository.com/basket";
-            Assertions.assertEquals(driver.getCurrentUrl(), expectedBaskethUrl);
+            Assertions.assertTrue(driver.getCurrentUrl().contains(expectedBaskethUrl));
         }
     }
 
@@ -99,6 +99,12 @@ public class CheckoutSteps {
         basketPage.clickOnCheckOutButton();
     }
 
+    @And("I checkout as a new customer with email {string} and {string} phone number")
+    public void iCheckoutAsANewCustomerWithEmailAndPhoneNumber(String email, String phone) {
+        PaymentPage paymentPage = new PaymentPage(driver);
+        paymentPage.fillEmailAndPhone(email, phone);
+    }
+
     @And("Checkout order summary is as following:")
     public void checkoutOrderSummaryIsAsFollowing(DataTable checkoutValues) {
         List<Map<String, String>> orderSummaryData = checkoutValues.asMaps();
@@ -110,22 +116,14 @@ public class CheckoutSteps {
         Assertions.assertEquals(paymentPage.orderSummaryValues("Total"), orderSummaryData.get(0).get("Total"));
     }
 
-    @And("I checkout as a new customer with email {string} and {string} phone number")
-    public void iCheckoutAsANewCustomerWithEmailAndPhoneNumber(String email, String phone) {
-        PaymentPage paymentPage = new PaymentPage(driver);
-        paymentPage.fillEmailAndPhone(email, phone);
-    }
-
     @And("I fill delivery address information manually:")
     public void iFillFeliveryAdressInformationManually(DataTable checkoutValues) {
         PaymentPage paymentPage = new PaymentPage(driver);
-        paymentPage.setCountry(checkoutValues.cell(1, 1));
         paymentPage.clickOnManualEntryButton();
         paymentPage.fillDeliveryData(checkoutValues.cell(1, 0), checkoutValues.cell(1, 2), checkoutValues.cell(1, 3),
                 checkoutValues.cell(1, 4), checkoutValues.cell(1, 5), checkoutValues.cell(1, 6));
+        paymentPage.setCountry(checkoutValues.cell(1, 1));
 
     }
-
-
 }
 

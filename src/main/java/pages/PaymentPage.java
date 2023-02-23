@@ -1,8 +1,10 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class PaymentPage extends ConfigPage {
     public PaymentPage(WebDriver driver) {
@@ -19,19 +21,32 @@ public class PaymentPage extends ConfigPage {
         return temp;
     }
 
+    @FindBy(xpath = "//input[@name=\"delivery-fullName\"]")
+    private WebElement fullName;
 
-    private WebElement fullName = driver.findElement(By.xpath("//input[@name=\"delivery-fullName\"]"));
-    private WebElement manualEntryButton = driver.findElement(By.xpath("//button[@name=\"manualEntryButton\"]"));
-    private WebElement addresLine1 = driver.findElement(By.xpath("//input[@name=\"delivery-addressLine1\"]"));
-    private WebElement addressLine2 = driver.findElement(By.xpath("//input[@name=\"delivery-addressLine2\"]"));
-    private WebElement city = driver.findElement(By.xpath("//input[@id=\"delivery-city\"]"));
-    private WebElement region = driver.findElement(By.xpath("//input[@id=\"delivery-county\"]"));
-    private WebElement postCode = driver.findElement(By.xpath("//input[@id=\"delivery-postCode\"]"));
+    @FindBy(xpath = "//input[@name=\"delivery-addressLine1\"]")
+    private WebElement addresLine1;
+    @FindBy(xpath = "//input[@name=\"delivery-addressLine2\"]")
+    private WebElement addressLine2;
+    @FindBy(xpath = "//input[@id=\"delivery-city\"]")
+    private WebElement city;
+    @FindBy(xpath = "//input[@id=\"delivery-county\"]")
+    private WebElement region;
+    @FindBy(xpath = "//input[@id=\"delivery-postCode\"]")
+    private WebElement postCode;
+    @FindBy(id = "buyNowButton")
+    private WebElement buyNowButton;
+
+    @FindBy(id = "delivery-manualEntryDeliveryAddress")
+    private WebElement manualEntryButton;
 
     public void setCountry(String countryValue) {
-        driver.findElement(By.xpath("//a[@class='option-link'][contains(text(),'"+countryValue+"')]")).click();
+        driver.findElement(By.xpath("//a[@class='option-link'][contains(text(),'" + countryValue + "')]")).click();
     }
+
     public void clickOnManualEntryButton() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView();", manualEntryButton);
         manualEntryButton.click();
     }
 
