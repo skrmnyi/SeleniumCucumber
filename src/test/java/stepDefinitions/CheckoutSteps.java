@@ -79,8 +79,12 @@ public class CheckoutSteps {
     @And("I am redirected to the {string}")
     public void iAmRedirectedToThe(String pageValue) {
         if (pageValue.contains("Basket Page")) {
-            String expecteBaskethUrl = "https://www.bookdepository.com/basket";
-            Assertions.assertEquals(driver.getCurrentUrl(), expecteBaskethUrl);
+            String expectedBaskethUrl = "https://www.bookdepository.com/basket";
+            Assertions.assertEquals(driver.getCurrentUrl(), expectedBaskethUrl);
         }
+    }
+
+    @And("Basket order summary is as following:")
+    public void basketOrderSummaryIsAsFollowing(DataTable orderCostData) {
     }
 }
