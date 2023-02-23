@@ -24,13 +24,13 @@ Feature: Desktop Checkout for Guest User
       | Delivery cost | Total   |
       | FREE          | 84,68 € |
     And I click ‘Checkout’ button on ‘Basket’ page
-    And I checkout as a new customer with email test@user.com
+    And I checkout as a new customer with email "test@user.com" and "123123123" phone number
     And Checkout order summary is as following:
-      | Sub-Total | Delivery | Vat   | Total |
-      | 63.75     | FREE     | 0, 00 | 63.75 |
-    And I fill felivery adress information manually:
-      | Full name | Delivery country | Address line 1   | Adress line       | Town/City | Country/State | Postcode |
-      | John      | Ukraine          | Random address 1 | Random addresss 2 | Kyiv      | Randrom state | 123      |
+      | Sub-total | Delivery | Vat    | Total   |
+      | 84,68 €   | FREE     | 0,00 € | 84,68 € |
+    And I fill delivery address information manually:
+      | Full name | Delivery country | Address line 1   | Address line 2     | Town/City | Country/State | Postcode |
+      | John      | Poland           | Random address 1 | Random addresses 2 | Kyiv      | Random state  | 123      |
     And ‘Payment’ section is disabled for editing
     When I press ‘Continue to payment’ button on checkout
     And ‘Delivery Adress’ and ‘Billing Address’ sections are disabled for editing

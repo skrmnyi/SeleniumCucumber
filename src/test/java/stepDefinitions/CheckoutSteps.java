@@ -3,16 +3,10 @@ package stepDefinitions;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import pages.BasketModalWindow;
-import pages.BasketPage;
-import pages.HomePage;
-import pages.SearchPage;
+import pages.*;
 
 import java.util.List;
 import java.util.Map;
@@ -97,7 +91,40 @@ public class CheckoutSteps {
         BasketPage basketPage = new BasketPage(driver);
         Assertions.assertEquals(basketPage.deliveryValue, orderSummary.get(0).get("Delivery cost"));
         Assertions.assertEquals(basketPage.totalValue, orderSummary.get(0).get("Total"));
+    }
 
+    @And("I click ‘Checkout’ button on ‘Basket’ page")
+    public void iClickCheckoutButtonOnBasketPage() {
+        BasketPage basketPage = new BasketPage(driver);
+        basketPage.clickOnCheckOutButton();
+    }
+
+    @And("I checkout as a new customer with {string} and {string} phone number")
+    public void iCheckoutAsANewCustomerWithAndPhoneNumber(String email, String phone) {
+        PaymentPage paymentPage = new PaymentPage(driver);
+        paymentPage.fillEmailAndPhone(email, phone);
+    }
+
+    @And("Checkout order summary is as following:")
+    public void checkoutOrderSummaryIsAsFollowing(DataTable checkoutValues) {
+        List<Map<String, String>> orderSummaryData = checkoutValues.asMaps();
+        PaymentPage paymentPage = new PaymentPage(driver);
+        System.out.println(orderSummaryData.get(0).get(0));
+        Assertions.assertEquals(paymentPage.orderSummaryValues("Sub-total"), orderSummaryData.get(0).get("Sub-total"));
+        Assertions.assertEquals(paymentPage.orderSummaryValues("Delivery"), orderSummaryData.get(0).get("Delivery"));
+        Assertions.assertEquals(paymentPage.orderSummaryValues("VAT"), orderSummaryData.get(0).get("Vat"));
+        Assertions.assertEquals(paymentPage.orderSummaryValues("Total"), orderSummaryData.get(0).get("Total"));
+
+    }
+
+    @And("I fill delivery adress information manually:")
+    public void iFillFeliveryAdressInformationManually(DataTable checkoutValues) {
+        PaymentPage paymentPage = new PaymentPage(driver);
+        paymentPage.setCountry(checkoutValues.cell(1, 1));
+        paymentPage.clickOnManualEntryButton();
+        paymentPage.fillDeliveryData(checkoutValues.cell(1, 0), checkoutValues.cell(1,2), checkoutValues.cell(1,3),
+                checkoutValues.cell(1,4), checkoutValues.cell(1,5), checkoutValues.cell(1,6));
 
     }
 }
+
