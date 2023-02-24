@@ -149,7 +149,9 @@ public class CheckoutSteps {
         Map<String, String> paymentDetails = cardDetails.asMap();
         PaymentPage paymentPage = new PaymentPage(driver);
 
-        paymentPage.fillCardNumberField(paymentDetails.get("cardNumber"), ("ExpiryDateMMY/YY"), ("Cvv"));
+        paymentPage.fillCardNumberField(paymentDetails.get("cardNumber"));
+        paymentPage.fillCardNumberField(paymentDetails.get("ExpiryDateMMY/YY"));
+        paymentPage.fillCardNumberField(paymentDetails.get("Cvv"));
 
 
     }

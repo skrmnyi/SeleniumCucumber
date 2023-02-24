@@ -69,26 +69,31 @@ public class PaymentPage extends ConfigPage {
     }
 
     public static By cardName = By.xpath("//input[@autocomplete=\"cc-number\"][@type=\"tel\"]");
-    public static By expDate = By.xpath("//input[@autocomplete=\"cc-exp\"]");
+    public static By expDate = By.xpath("//input[@autocomplete=\"cc-exp\"][@autocorrect=\"off\"]");
     public static By cvv = By.xpath("//input[@autocomplete=\"cc-csc\"][@type=\"tel\"]");
 
 
-    public void switchToIFrame() {
-        driver.switchTo().frame(driver.findElement(By.name("braintree-hosted-field-number")));
+    public void switchToIFrame(String iframeName) {
+        driver.switchTo().frame(driver.findElement(By.name(iframeName)));
     }
 
-    public void fillCardNumberField(String cardNumber, String expirationDate, String cvvPass) {
-
-        switchToIFrame();
-        driver.findElement(cardName).sendKeys(cardNumber);
-        switchToIFrame();
-        driver.findElement(expDate).sendKeys(expirationDate);
-        driver.findElement(cvv).sendKeys(cvvPass);
-        switchToDefault();
-    }
-
-
-    public void switchToDefault() {
+    void switchToDefault() {
         driver.switchTo().defaultContent();
+    }
+
+    public void fillCardNumberField(String finValue) {
+        if (finValue.length() == 16) {
+            switchToIFrame("braintree-hosted-field-number");
+            driver.findElement(cardName).sendKeys(finValue);
+            switchToDefault();
+        } else if ((finValue.length() == 4)) {
+            switchToIFrame("braintree-hosted-field-expirationDate");
+            driver.findElement(expDate).sendKeys(finValue);
+            switchToDefault();
+        } else {
+            switchToIFrame("braintree-hosted-field-cvv");
+            driver.findElement(cvv).sendKeys(finValue);
+            switchToDefault();
+        }
     }
 }
