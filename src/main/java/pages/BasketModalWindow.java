@@ -15,4 +15,3 @@ public class BasketModalWindow extends ConfigPage {
         smartWaiter(3);
     }
 }
-

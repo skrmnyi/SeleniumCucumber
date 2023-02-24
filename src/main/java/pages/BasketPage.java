@@ -12,12 +12,7 @@ public class BasketPage extends pages.ConfigPage {
 
     public String totalValue = driver.findElement(By.xpath("//dl[@class=\"total\"]/dd")).getText();
     public String deliveryValue = driver.findElement(By.xpath("//dl[@class=\"delivery-text\"]/dd")).getText();
-
-
-    private By fullNameInput = By.xpath("//input[@name=\"delivery-fullName\"]");
-
     public void clickOnCheckOutButton(){
         driver.findElement(By.xpath("//div[@class=\"checkout-btns-wrap\"]/a[1]")).click();
     }
-
 }

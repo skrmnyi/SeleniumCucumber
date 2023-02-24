@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.*;
 
 import java.util.List;
@@ -104,7 +103,7 @@ public class CheckoutSteps {
     }
 
     @And("I fill delivery address information manually:")
-    public void iFillDeliveryAdressInformationManually(DataTable checkoutValues) throws InterruptedException {
+    public void iFillDeliveryAdressInformationManually(DataTable checkoutValues) {
         PaymentPage paymentPage = new PaymentPage(driver);
         paymentPage.fillDeliveryData(checkoutValues.cell(1, 0));
         paymentPage.setCountry(checkoutValues.cell(1, 1));
@@ -120,7 +119,6 @@ public class CheckoutSteps {
         Assertions.assertEquals(paymentPage.orderSummaryValues("VAT"), orderSummaryData.get(0).get("Vat"));
         Assertions.assertEquals(paymentPage.orderSummaryValues("Total"), orderSummaryData.get(0).get("Total"));
     }
-
 
     @And("{string} message displayed once click on Buy Now button")
     public void messageDisplayedOnceClickOnBuyNowButton(String warningMessage) {
@@ -144,6 +142,7 @@ public class CheckoutSteps {
         paymentPage.fillCardNumberField(paymentDetails.get("cardNumber"));
         paymentPage.fillCardNumberField(paymentDetails.get("ExpiryDateMMY/YY"));
         paymentPage.fillCardNumberField(paymentDetails.get("Cvv"));
+
+        driver.quit();
     }
 }
-

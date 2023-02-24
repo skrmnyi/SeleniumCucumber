@@ -29,7 +29,6 @@ public class SearchPage extends ConfigPage {
         return bookElements;
     }
 
-
     public void filterSearhResultsUsingAllFilters(String filterName1, String filterValue1, String filterName2, String filterValue2,
                                                   String filterName3, String filterValue3, String filterName4, String filterValue4) {
         driver.findElement(By.xpath("//label[text()='" + filterName1 + "']/parent::div/select")).click();
@@ -52,4 +51,3 @@ public class SearchPage extends ConfigPage {
                 "/a[contains(text(),'" + buttonName + "')]"));
     }
 }
-
