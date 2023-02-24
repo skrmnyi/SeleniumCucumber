@@ -40,7 +40,7 @@ public class CheckoutSteps {
     }
 
     @And("I am redirected to a {string}")
-    public void iAmRedirectedToASearchPage(String pageValue)  {
+    public void iAmRedirectedToASearchPage(String pageValue) {
         HomePage homePage = new HomePage(driver);
         homePage.clickOnSearchButton();
         if (pageValue.contains("Search Page")) {
@@ -52,17 +52,17 @@ public class CheckoutSteps {
     @And("Search results contain the following products")
     public void searchResultsContainTheFollowingProducts(DataTable expectedBooks) {
         SearchPage searchPage = new SearchPage(driver);
-        searchPage.foundedBooksOnTheSearchPage().contains(expectedBooks.asList());
+        Assertions.assertEquals(searchPage.foundedBooksOnTheSearchPage(),(expectedBooks).asList());
     }
 
     @And("I apply the following search filters")
     public void iApplyTheFollowingSearchFilters(DataTable filterParams) {
         SearchPage searchPage = new SearchPage(driver);
-        searchPage.filterSearhResultsUsingAllFilters(filterParams.cell(0, 0).toString(),
-                filterParams.cell(0, 1).toString(), filterParams.cell(1, 0).toString(),
-                filterParams.cell(1, 1).toString(), filterParams.cell(2, 0).toString(),
-                filterParams.cell(2, 1).toString(), filterParams.cell(3, 0).toString(),
-                filterParams.cell(3, 1).toString());
+        searchPage.filterSearhResultsUsingAllFilters(filterParams.cell(0, 0),
+                filterParams.cell(0, 1), filterParams.cell(1, 0),
+                filterParams.cell(1, 1), filterParams.cell(2, 0),
+                filterParams.cell(2, 1), filterParams.cell(3, 0),
+                filterParams.cell(3, 1));
     }
 
     @And("I click {string} button for a product with the name {string}")
@@ -78,7 +78,7 @@ public class CheckoutSteps {
     }
 
     @And("I am redirected to the {string}")
-    public void iAmRedirectedToThe(String pageValue) throws InterruptedException {
+    public void iAmRedirectedToThe(String pageValue) {
         if (pageValue.contains("Basket Page")) {
             String expectedBaskethUrl = "https://www.bookdepository.com/basket";
             Assertions.assertTrue(driver.getCurrentUrl().contains(expectedBaskethUrl));
@@ -89,8 +89,8 @@ public class CheckoutSteps {
     public void basketOrderSummaryIsAsFollowing(DataTable orderCostData) {
         List<Map<String, String>> orderSummary = orderCostData.asMaps();
         BasketPage basketPage = new BasketPage(driver);
-        Assertions.assertEquals(basketPage.deliveryValue, orderSummary.get(0).get("Delivery cost"));
-        Assertions.assertEquals(basketPage.totalValue, orderSummary.get(0).get("Total"));
+        Assertions.assertEquals(orderSummary.get(0).get("Delivery cost"), basketPage.deliveryValue);
+        Assertions.assertEquals(orderSummary.get(0).get("Total"), basketPage.totalValue);
     }
 
     @And("I click ‘Checkout’ button on ‘Basket’ page")
@@ -105,6 +105,19 @@ public class CheckoutSteps {
         paymentPage.fillEmailAndPhone(email, phone);
     }
 
+    @And("I fill delivery address information manually:")
+    public void iFillFeliveryAdressInformationManually(DataTable checkoutValues) throws InterruptedException {
+        PaymentPage paymentPage = new PaymentPage(driver);
+        paymentPage.fillDeliveryData(checkoutValues.cell(1, 0));
+
+        paymentPage.setCountry(checkoutValues.cell(1, 1));
+        TimeUnit.SECONDS.sleep(2);
+
+        paymentPage.fillDeliveryData(checkoutValues.cell(1, 2), checkoutValues.cell(1, 3), checkoutValues.cell(1, 4), checkoutValues.cell(1, 5), checkoutValues.cell(1, 6));
+        paymentPage.setCountry(checkoutValues.cell(1, 1));
+        TimeUnit.SECONDS.sleep(2);
+    }
+
     @And("Checkout order summary is as following:")
     public void checkoutOrderSummaryIsAsFollowing(DataTable checkoutValues) {
         List<Map<String, String>> orderSummaryData = checkoutValues.asMaps();
@@ -116,14 +129,30 @@ public class CheckoutSteps {
         Assertions.assertEquals(paymentPage.orderSummaryValues("Total"), orderSummaryData.get(0).get("Total"));
     }
 
-    @And("I fill delivery address information manually:")
-    public void iFillFeliveryAdressInformationManually(DataTable checkoutValues) {
+
+    @And("{string} message displayed once click on Buy Now button")
+    public void messageDisplayedOnceClickOnBuyNowButton(String warningMessage) {
         PaymentPage paymentPage = new PaymentPage(driver);
-        paymentPage.clickOnManualEntryButton();
-        paymentPage.fillDeliveryData(checkoutValues.cell(1, 0), checkoutValues.cell(1, 2), checkoutValues.cell(1, 3),
-                checkoutValues.cell(1, 4), checkoutValues.cell(1, 5), checkoutValues.cell(1, 6));
-        paymentPage.setCountry(checkoutValues.cell(1, 1));
+        paymentPage.clickOnBuyButton();
+        Assertions.assertTrue(paymentPage.checkWarningMessage().toString().contains(warningMessage));
+    }
+
+    @And("‘Delivery Adress’ is the same as Payment checkbox is enabled")
+    public void deliveryAdressIsTheSameAsPaymentCheckboxIsEnabled() throws InterruptedException {
+        PaymentPage paymentPage = new PaymentPage(driver);
+        Assertions.assertTrue(driver.findElement(paymentPage.useSameAddressCheckbox).isEnabled());
+        TimeUnit.SECONDS.sleep(2);
+    }
+
+    @And("I enter my card details")
+    public void iEnterMyCardDetails(DataTable cardDetails) {
+        Map<String, String> paymentDetails = cardDetails.asMap();
+        PaymentPage paymentPage = new PaymentPage(driver);
+
+        paymentPage.fillCardDetails(cardDetails.cell(2, 1));
+
 
     }
+
 }
 

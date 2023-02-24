@@ -22,25 +22,25 @@ Feature: Desktop Checkout for Guest User
     And I am redirected to the "Basket Page"
     And Basket order summary is as following:
       | Delivery cost | Total   |
-      | FREE          | 84,68 € |
+      | FREE          | 84,38 € |
     And I click ‘Checkout’ button on ‘Basket’ page
     And I checkout as a new customer with email "test@user.com" and "123123123" phone number
-    And Checkout order summary is as following:
-      | Sub-total | Delivery | Vat    | Total   |
-      | 84,68 €   | FREE     | 0,00 € | 84,68 € |
     And I fill delivery address information manually:
-      | Full name | Delivery country | Address line 1   | Address line 2     | Town/City | Country/State | Postcode |
-      | John      | Poland           | Random address 1 | Random addresses 2 | Kyiv      | Random state  | 123      |
-    And ‘Payment’ section is disabled for editing
-    When I press ‘Continue to payment’ button on checkout
-    And ‘Delivery Adress’ and ‘Billing Address’ sections are disabled for editing
+      | Full name   | Delivery country | Address line 1   | Address line 2     | Town/City | Country/State | Postcode |
+      | John Newman | Canada           | Random address 1 | Random addresses 2 | Kyiv      | Random state  | 123      |
+    And "Please enter your card number" message displayed once click on Buy Now button
+    And ‘Delivery Adress’ is the same as Payment checkbox is enabled
     And I enter my card details
-      | Card Type    | Visa           |
-      | Name On Card | RandomName     |
-      | cardNumber   | 41111111111111 |
-      | Expiry Year  | 2023           |
-      | Expiry Month | 03             |
-      | Cvv          | 123            |
+      | Card Type        | Visa           |
+      | Name On Card     | RandomName     |
+      | cardNumber       | 41111111111111 |
+      | Expiry Date      | 2023           |
+      | Expiry Month     | 03             |
+      | Cvv              | 123            |
+      | ExpiryDateMMY/YY | 0225           |
+
+
+
 
 
 

@@ -1,19 +1,13 @@
+
 package pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 public class PaymentPage extends ConfigPage {
     public PaymentPage(WebDriver driver) {
         super(driver);
-    }
-
-    public void fillEmailAndPhone(String email, String phone) {
-        driver.findElement(By.xpath("//input[@name=\"emailAddress\"]")).sendKeys(email);
-        driver.findElement(By.xpath("//input[@name=\"delivery-telephone\"]")).sendKeys(phone);
     }
 
     public String orderSummaryValues(String fieldName) {
@@ -21,42 +15,77 @@ public class PaymentPage extends ConfigPage {
         return temp;
     }
 
-    @FindBy(xpath = "//input[@name=\"delivery-fullName\"]")
-    private WebElement fullName;
 
-    @FindBy(xpath = "//input[@name=\"delivery-addressLine1\"]")
-    private WebElement addresLine1;
-    @FindBy(xpath = "//input[@name=\"delivery-addressLine2\"]")
-    private WebElement addressLine2;
-    @FindBy(xpath = "//input[@id=\"delivery-city\"]")
-    private WebElement city;
-    @FindBy(xpath = "//input[@id=\"delivery-county\"]")
-    private WebElement region;
-    @FindBy(xpath = "//input[@id=\"delivery-postCode\"]")
-    private WebElement postCode;
-    @FindBy(id = "buyNowButton")
-    private WebElement buyNowButton;
+    private By fullNameInput = By.xpath("//input[@name=\"delivery-fullName\"]");
+    private By addressLine1 = By.xpath("//input[@name=\"delivery-addressLine1\"]");
+    private By addressLine2 = By.xpath("//input[@name=\"delivery-addressLine2\"]");
 
-    @FindBy(id = "delivery-manualEntryDeliveryAddress")
-    private WebElement manualEntryButton;
+    private By city = By.xpath("//input[@id=\"delivery-city\"]");
+
+    private By region = By.xpath("//input[@id=\"delivery-county\"]");
+
+    private By postCode = By.xpath("//input[@id=\"delivery-postCode\"]");
+
+    static public By buyNowButton = By.xpath("//button[@id=\"buyNowButton\"]");
+    static public By useSameAddressCheckbox = By.xpath("//label[@class=\"checker\"]");
+
+
+    private By manualEntryButton = By.xpath("//button[@name=\"manualEntryButton\"]");
+    private By errorMessage = By.xpath("//div[@class=\"buynow-error-msg\"][contains(text(),'Please enter your card number')]");
+
+    public void fillEmailAndPhone(String email, String phone) {
+        driver.findElement(By.xpath("//input[@name=\"emailAddress\"]")).sendKeys(email);
+        driver.findElement(By.xpath("//input[@name=\"delivery-telephone\"]")).sendKeys(phone);
+    }
+
+    public void fillDeliveryData(String fullNameValue) {
+        driver.findElement(fullNameInput).sendKeys(fullNameValue);
+    }
 
     public void setCountry(String countryValue) {
+        driver.findElement(By.xpath("//span[@name=\"deliveryCountry\"]")).click();
         driver.findElement(By.xpath("//a[@class='option-link'][contains(text(),'" + countryValue + "')]")).click();
     }
 
-    public void clickOnManualEntryButton() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView();", manualEntryButton);
-        manualEntryButton.click();
+    public void fillDeliveryData(String address1Value, String address2Value, String cityValue, String regionValue, String postCodeValue) {
+        driver.findElement(manualEntryButton).click();
+        driver.findElement(addressLine1).sendKeys(address1Value);
+        driver.findElement(addressLine2).sendKeys(address2Value);
+        driver.findElement(city).sendKeys(cityValue);
+        driver.findElement(region).sendKeys(regionValue);
+        driver.findElement(postCode).sendKeys(postCodeValue);
+    }
+
+    public void clickOnBuyButton() {
+        driver.findElement(buyNowButton).sendKeys(Keys.DOWN);
+        driver.findElement(buyNowButton).click();
+    }
+
+    public By checkWarningMessage() {
+        driver.findElement(errorMessage).getText();
+        return this.errorMessage;
+    }
+
+    public static By cardName = By.xpath("//input[@autocomplete=\"cc-number\"][@type=\"tel\"]");
+    public static By expDate = By.xpath("//input[@autocomplete=\"cc-exp\"]/parent::form");
+    public static By cvv = By.xpath("//input[@autocomplete=\"cc-csc\"][@type=\"tel\"]/parent::form");
+
+    public void fillCardDetails(String fieldValue) {
+        driver.findElement(cardName).sendKeys(fieldValue);
+        driver.findElement(expDate).sendKeys(fieldValue);
+        driver.findElement(cvv).sendKeys(fieldValue);
     }
 
 
-    public void fillDeliveryData(String fullNameValue, String address1Value, String address2Value, String cityValue, String regionValue, String postCodeValue) {
-        fullName.sendKeys(fullNameValue);
-        addresLine1.sendKeys(address1Value);
-        addressLine2.sendKeys(address2Value);
-        city.sendKeys(cityValue);
-        region.sendKeys(regionValue);
-        postCode.sendKeys(postCodeValue);
-    }
+//    public void orderCardDetailsFinder(String fieldName, String fieldValue) {
+//        if (fieldName == "cardNumber") {
+//            driver.findElement(By.xpath("//input[@autocomplete="cc-number"][@type="tel"]")).sendKeys(fieldValue);
+//        } else if (fieldName == "ExpiryDateMMY/YY") {
+//            driver.findElement(By.xpath("//input[@autocomplete=\"cc-exp\"]")).sendKeys(fieldValue);
+//        } else if (fieldName == "Cvv") {
+//            driver.findElement(By.xpath("//input[@autocomplete="cc-csc"][@type="tel"]")).sendKeys(fieldValue);
+//        }
+//    }
+
+
 }
