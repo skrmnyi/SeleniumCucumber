@@ -12,6 +12,7 @@ public class PaymentPage extends ConfigPage {
         super(driver);
     }
 
+
     public String orderSummaryValues(String fieldName) {
         String temp = driver.findElement(By.xpath("//strong[text()='" + fieldName + "']/parent::dt/following-sibling::dd")).getText();
         return temp;
@@ -28,9 +29,8 @@ public class PaymentPage extends ConfigPage {
 
     private By postCode = By.xpath("//input[@id=\"delivery-postCode\"]");
 
-    static public By buyNowButton = By.xpath("//button[@id=\"buyNowButton\"]");
+    private By buyNowButton = By.xpath("//button[@id=\"buyNowButton\"]");
     static public By useSameAddressCheckbox = By.xpath("//label[@class=\"checker\"]");
-
 
     private By manualEntryButton = By.xpath("//button[@name=\"manualEntryButton\"]");
     private By errorMessage = By.xpath("//div[@class=\"buynow-error-msg\"][contains(text(),'Please enter your card number')]");
@@ -47,15 +47,18 @@ public class PaymentPage extends ConfigPage {
     public void setCountry(String countryValue) {
         driver.findElement(By.xpath("//span[@name=\"deliveryCountry\"]")).click();
         driver.findElement(By.xpath("//a[@class='option-link'][contains(text(),'" + countryValue + "')]")).click();
+        smartWaiter(3);
+        driver.findElement(manualEntryButton).click();
+        smartWaiter(3);
     }
 
     public void fillDeliveryData(String address1Value, String address2Value, String cityValue, String regionValue, String postCodeValue) {
-        driver.findElement(manualEntryButton).click();
         driver.findElement(addressLine1).sendKeys(address1Value);
         driver.findElement(addressLine2).sendKeys(address2Value);
         driver.findElement(city).sendKeys(cityValue);
         driver.findElement(region).sendKeys(regionValue);
         driver.findElement(postCode).sendKeys(postCodeValue);
+        smartWaiter(3);
     }
 
     public void clickOnBuyButton() {
@@ -94,6 +97,8 @@ public class PaymentPage extends ConfigPage {
             switchToIFrame("braintree-hosted-field-cvv");
             driver.findElement(cvv).sendKeys(finValue);
             switchToDefault();
+
         }
     }
+
 }

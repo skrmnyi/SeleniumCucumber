@@ -4,24 +4,22 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.*;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-
 public class CheckoutSteps {
-
     private static WebDriver driver;
-    private final String baseUrl = "https://www.bookdepository.com/";
-
+    private final static String baseUrl = "https://www.bookdepository.com/";
 
     @Given("I am an anonymous customer with clear cookies")
     public void launchBrowser() {
-
         System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -106,23 +104,17 @@ public class CheckoutSteps {
     }
 
     @And("I fill delivery address information manually:")
-    public void iFillFeliveryAdressInformationManually(DataTable checkoutValues) throws InterruptedException {
+    public void iFillDeliveryAdressInformationManually(DataTable checkoutValues) throws InterruptedException {
         PaymentPage paymentPage = new PaymentPage(driver);
         paymentPage.fillDeliveryData(checkoutValues.cell(1, 0));
-
         paymentPage.setCountry(checkoutValues.cell(1, 1));
-        TimeUnit.SECONDS.sleep(2);
-
         paymentPage.fillDeliveryData(checkoutValues.cell(1, 2), checkoutValues.cell(1, 3), checkoutValues.cell(1, 4), checkoutValues.cell(1, 5), checkoutValues.cell(1, 6));
-        paymentPage.setCountry(checkoutValues.cell(1, 1));
-        TimeUnit.SECONDS.sleep(2);
     }
 
     @And("Checkout order summary is as following:")
     public void checkoutOrderSummaryIsAsFollowing(DataTable checkoutValues) {
         List<Map<String, String>> orderSummaryData = checkoutValues.asMaps();
         PaymentPage paymentPage = new PaymentPage(driver);
-        System.out.println(orderSummaryData.get(0).get(0));
         Assertions.assertEquals(paymentPage.orderSummaryValues("Sub-total"), orderSummaryData.get(0).get("Sub-total"));
         Assertions.assertEquals(paymentPage.orderSummaryValues("Delivery"), orderSummaryData.get(0).get("Delivery"));
         Assertions.assertEquals(paymentPage.orderSummaryValues("VAT"), orderSummaryData.get(0).get("Vat"));
@@ -152,9 +144,6 @@ public class CheckoutSteps {
         paymentPage.fillCardNumberField(paymentDetails.get("cardNumber"));
         paymentPage.fillCardNumberField(paymentDetails.get("ExpiryDateMMY/YY"));
         paymentPage.fillCardNumberField(paymentDetails.get("Cvv"));
-
-
     }
-
 }
 
