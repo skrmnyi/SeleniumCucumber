@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
+import static java.sql.DriverManager.getDriver;
+
 public class PaymentPage extends ConfigPage {
     public PaymentPage(WebDriver driver) {
         super(driver);
@@ -67,25 +69,26 @@ public class PaymentPage extends ConfigPage {
     }
 
     public static By cardName = By.xpath("//input[@autocomplete=\"cc-number\"][@type=\"tel\"]");
-    public static By expDate = By.xpath("//input[@autocomplete=\"cc-exp\"]/parent::form");
-    public static By cvv = By.xpath("//input[@autocomplete=\"cc-csc\"][@type=\"tel\"]/parent::form");
+    public static By expDate = By.xpath("//input[@autocomplete=\"cc-exp\"]");
+    public static By cvv = By.xpath("//input[@autocomplete=\"cc-csc\"][@type=\"tel\"]");
 
-    public void fillCardDetails(String fieldValue) {
-        driver.findElement(cardName).sendKeys(fieldValue);
-        driver.findElement(expDate).sendKeys(fieldValue);
-        driver.findElement(cvv).sendKeys(fieldValue);
+
+    public void switchToIFrame() {
+        driver.switchTo().frame(driver.findElement(By.name("braintree-hosted-field-number")));
+    }
+
+    public void fillCardNumberField(String cardNumber, String expirationDate, String cvvPass) {
+
+        switchToIFrame();
+        driver.findElement(cardName).sendKeys(cardNumber);
+        switchToIFrame();
+        driver.findElement(expDate).sendKeys(expirationDate);
+        driver.findElement(cvv).sendKeys(cvvPass);
+        switchToDefault();
     }
 
 
-//    public void orderCardDetailsFinder(String fieldName, String fieldValue) {
-//        if (fieldName == "cardNumber") {
-//            driver.findElement(By.xpath("//input[@autocomplete="cc-number"][@type="tel"]")).sendKeys(fieldValue);
-//        } else if (fieldName == "ExpiryDateMMY/YY") {
-//            driver.findElement(By.xpath("//input[@autocomplete=\"cc-exp\"]")).sendKeys(fieldValue);
-//        } else if (fieldName == "Cvv") {
-//            driver.findElement(By.xpath("//input[@autocomplete="cc-csc"][@type="tel"]")).sendKeys(fieldValue);
-//        }
-//    }
-
-
+    public void switchToDefault() {
+        driver.switchTo().defaultContent();
+    }
 }

@@ -31,13 +31,13 @@ Feature: Desktop Checkout for Guest User
     And "Please enter your card number" message displayed once click on Buy Now button
     And ‘Delivery Adress’ is the same as Payment checkbox is enabled
     And I enter my card details
-      | Card Type        | Visa           |
-      | Name On Card     | RandomName     |
-      | cardNumber       | 41111111111111 |
-      | Expiry Date      | 2023           |
-      | Expiry Month     | 03             |
-      | Cvv              | 123            |
-      | ExpiryDateMMY/YY | 0225           |
+      | Card Type        | Visa             |
+      | Name On Card     | RandomName       |
+      | cardNumber       | 4367784189712985 |
+      | Expiry Date      | 2023             |
+      | Expiry Month     | 03               |
+      | Cvv              | 697              |
+      | ExpiryDateMMY/YY | 1030             |
 
 
 

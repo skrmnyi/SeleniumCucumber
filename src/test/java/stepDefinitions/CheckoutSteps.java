@@ -52,7 +52,7 @@ public class CheckoutSteps {
     @And("Search results contain the following products")
     public void searchResultsContainTheFollowingProducts(DataTable expectedBooks) {
         SearchPage searchPage = new SearchPage(driver);
-        Assertions.assertEquals(searchPage.foundedBooksOnTheSearchPage(),(expectedBooks).asList());
+        Assertions.assertEquals(searchPage.foundedBooksOnTheSearchPage(), (expectedBooks).asList());
     }
 
     @And("I apply the following search filters")
@@ -149,7 +149,7 @@ public class CheckoutSteps {
         Map<String, String> paymentDetails = cardDetails.asMap();
         PaymentPage paymentPage = new PaymentPage(driver);
 
-        paymentPage.fillCardDetails(cardDetails.cell(2, 1));
+        paymentPage.fillCardNumberField(paymentDetails.get("cardNumber"), ("ExpiryDateMMY/YY"), ("Cvv"));
 
 
     }
