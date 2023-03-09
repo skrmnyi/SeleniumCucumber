@@ -22,7 +22,7 @@ Feature: Desktop Checkout for Guest User
     And I am redirected to the "Basket Page"
     And Basket order summary is as following:
       | Delivery cost | Total   |
-      | FREE          | 84,38 € |
+      | FREE          | 85,31 € |
     And I click ‘Checkout’ button on ‘Basket’ page
     And I checkout as a new customer with email "test@user.com" and "123123123" phone number
     And I fill delivery address information manually:

@@ -23,22 +23,22 @@ public class SearchPage extends ConfigPage {
 
     public List<String> foundedBooksOnTheSearchPage() {
         List<String> bookElements = new ArrayList<>();
-        bookElements.addAll(Arrays.asList(finbBookByDateAndName("10 Feb 2006", "Thinking in Java").getText().trim(),
+        bookElements.addAll(Arrays.asList(finbBookByDateAndName("09 Mar 2006", "Thinking in Java").getText().trim(),
                 finbBookByDateAndName("14 Oct 2017", "Thinking Java Part I").getText().trim(),
                 finbBookByDateAndName("04 Sep 2014", "Core Java Professional").getText().trim()));
         return bookElements;
     }
 
-    public void filterSearhResultsUsingAllFilters(String filterName1, String filterValue1, String filterName2, String filterValue2,
-                                                  String filterName3, String filterValue3, String filterName4, String filterValue4) {
-        driver.findElement(By.xpath("//label[text()='" + filterName1 + "']/parent::div/select")).click();
-        driver.findElement(By.xpath("//label[text()='" + filterName1 + "']/" +
-                "parent::div/select/option[contains(text(),'" + filterValue1 + "')]")).click();
-        driver.findElement(By.xpath("//label[text()='" + filterName2 + "']/parent::div/select")).click();
-        driver.findElement(By.xpath("//label[text()='" + filterName2 + "']/" +
-                "parent::div/select/option[contains(text(),'" + filterValue2 + "')]")).click();
-        driver.findElement(By.xpath("//label[text()='" + filterName3 + "']/parent::div/select")).click();
-        driver.findElement(By.xpath("//label[text()='" + filterName3 + "']/" +
+    public void filterSearhResultsUsingAllFilters(String priceFilter, String priceValue, String availabilityFilter, String availabilityValue,
+                                                  String languageFilter, String filterValue3, String filterName4, String filterValue4) {
+        driver.findElement(By.xpath("//label[text()='" + priceFilter + "']/parent::div/select")).click();
+        driver.findElement(By.xpath("//label[text()='" + priceFilter + "']/" +
+                "parent::div/select/option[contains(text(),'" + priceValue + "')]")).click();
+        driver.findElement(By.xpath("//label[text()='" + availabilityFilter + "']/parent::div/select")).click();
+        driver.findElement(By.xpath("//label[text()='" + availabilityFilter + "']/" +
+                "parent::div/select/option[contains(text(),'" + availabilityValue + "')]")).click();
+        driver.findElement(By.xpath("//label[text()='" + languageFilter + "']/parent::div/select")).click();
+        driver.findElement(By.xpath("//label[text()='" + languageFilter + "']/" +
                 "parent::div/select/option[contains(text(),'" + filterValue3 + "')]")).click();
         driver.findElement(By.xpath("//label[text()='" + filterName4 + "']/parent::div/select")).click();
         driver.findElement(By.xpath("//label[text()='" + filterName4 + "']/" +

@@ -40,7 +40,7 @@ public class CheckoutSteps {
     public void iAmRedirectedToASearchPage(String pageValue) {
         HomePage homePage = new HomePage(driver);
         homePage.clickOnSearchButton();
-        if (pageValue.contains("Search Page")) {
+        if (pageValue.contains(pageValue)) {
             String expectedSearchUrl = "https://www.bookdepository.com/search?searchTerm=";
             Assertions.assertTrue(driver.getCurrentUrl().contains(expectedSearchUrl));
         }

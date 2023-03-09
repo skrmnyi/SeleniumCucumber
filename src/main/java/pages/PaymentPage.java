@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class PaymentPage extends ConfigPage {
     public PaymentPage(WebDriver driver) {
@@ -41,6 +43,7 @@ public class PaymentPage extends ConfigPage {
     public void setCountry(String countryValue) {
         driver.findElement(By.xpath("//span[@name=\"deliveryCountry\"]")).click();
         driver.findElement(By.xpath("//a[@class='option-link'][contains(text(),'" + countryValue + "')]")).click();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
     public void clickOnManualFillingAddressButton() {
