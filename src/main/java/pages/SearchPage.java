@@ -30,7 +30,7 @@ public class SearchPage extends ConfigPage {
     }
 
     public void filterSearhResultsUsingAllFilters(String priceFilter, String priceValue, String availabilityFilter, String availabilityValue,
-                                                  String languageFilter, String filterValue3, String filterName4, String filterValue4) {
+                                                  String languageFilter, String languageValue, String formatFilter, String formatValue) {
         driver.findElement(By.xpath("//label[text()='" + priceFilter + "']/parent::div/select")).click();
         driver.findElement(By.xpath("//label[text()='" + priceFilter + "']/" +
                 "parent::div/select/option[contains(text(),'" + priceValue + "')]")).click();
@@ -39,10 +39,10 @@ public class SearchPage extends ConfigPage {
                 "parent::div/select/option[contains(text(),'" + availabilityValue + "')]")).click();
         driver.findElement(By.xpath("//label[text()='" + languageFilter + "']/parent::div/select")).click();
         driver.findElement(By.xpath("//label[text()='" + languageFilter + "']/" +
-                "parent::div/select/option[contains(text(),'" + filterValue3 + "')]")).click();
-        driver.findElement(By.xpath("//label[text()='" + filterName4 + "']/parent::div/select")).click();
-        driver.findElement(By.xpath("//label[text()='" + filterName4 + "']/" +
-                "parent::div/select/option[contains(text(),'" + filterValue4 + "')]")).click();
+                "parent::div/select/option[contains(text(),'" + languageValue + "')]")).click();
+        driver.findElement(By.xpath("//label[text()='" + formatFilter + "']/parent::div/select")).click();
+        driver.findElement(By.xpath("//label[text()='" + formatFilter + "']/" +
+                "parent::div/select/option[contains(text(),'" + formatValue + "')]")).click();
         driver.findElement(By.xpath("//div[@class=\"form-group padded-btn-wrap\"]/button")).click();
     }
 
